@@ -1,175 +1,159 @@
 <template>
   <div class="home">
-    <!-- Hero Section con imagen principal -->
-    <section class="hero section-padding">
-      <div class="container">
-        <div class="hero__content">
-          <h1 class="hero__title text-gradient fade-in">
-            {{ heroData.title }}
-          </h1>
-          <p class="hero__description">
-            {{ heroData.description }}
-          </p>
-        </div>
-        
-        <div class="hero__image">
-          <img 
-            :src="heroData.mainImage" 
-            :alt="heroData.imageAlt"
-            class="hero__img"
-          />
-        </div>
-      </div>
-    </section>
+    <!-- Imagen de fondo con máscara -->
+    <div class="background">
+      <div class="background__overlay"></div>
 
-    <!-- Sección de Features Cards -->
-    <section class="features section-padding">
-      <div class="container">
-        <h2 class="features__title text-center">
-          {{ featuresData.sectionTitle }}
-        </h2>
-        
-        <div class="features-grid">
-          <FeatureCard
-            v-for="feature in featuresData.cards"
-            :key="feature.id"
-            :image="feature.image"
-            :alt-text="feature.altText"
-            :title="feature.title"
-            :description="feature.description"
-            :to="feature.route"
-            @click="handleFeatureClick(feature)"
+      <!-- Grid principal -->
+      <div class="grid-layout">
+
+        <!-- Fila 2 vacía -->
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+
+        <!-- Fila 1: SimpleTextBlock centrado -->
+        <div class="grid-cell"></div>
+        <div class="grid-cell grid-center">
+          <SimpleTextBlock
+            title="IA consciente"
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer malesuada ex ut ligula eleifend, eget tincidunt turpis suscipit. Suspendisse potenti. Proin dapibus diam et justo convallis, sed tincidunt purus tincidunt."
+          />
+        </div>
+        <div class="grid-cell"></div>
+
+        <!-- Fila 3: los 4 Title.vue -->
+        <div class="grid-cell">
+          <Title
+            title="Primero"
+            image="https://comunicagenia.com/wp-content/uploads/2024/10/usar-inteligencia-artificial-creador-contenido-1080x675.jpg"
+          />
+        </div>
+        <div class="grid-cell">
+          <Title
+            title="Segundo"
+            image="https://comunicagenia.com/wp-content/uploads/2024/10/usar-inteligencia-artificial-creador-contenido-1080x675.jpg"
+          />
+        </div>
+        <div class="grid-cell">
+          <Title
+            title="Tercero"
+            image="https://comunicagenia.com/wp-content/uploads/2024/10/usar-inteligencia-artificial-creador-contenido-1080x675.jpg"
+          />
+        </div>
+        <div class="grid-cell">
+          <Title
+            title="Cuarto"
+            image="https://comunicagenia.com/wp-content/uploads/2024/10/usar-inteligencia-artificial-creador-contenido-1080x675.jpg"
           />
         </div>
       </div>
-    </section>
+    </div>
   </div>
 </template>
 
 <script>
-import { computed, onMounted } from 'vue'
-import { useStore } from 'vuex'
-import FeatureCard from '@/components/ui/FeatureCard.vue'
+import Title from '@/components/ui/Title.vue'
+import SimpleTextBlock from '@/components/ui/SimpleTextBlock.vue'
 
 export default {
   name: 'HomeView',
-  components: {
-    FeatureCard
-  },
-  setup() {
-    const store = useStore()
-    
-    const heroData = computed(() => store.state.homePageData.hero || {})
-    const featuresData = computed(() => store.state.homePageData.features || {})
-    
-    const handleFeatureClick = (feature) => {
-      console.log('Feature clicked:', feature)
-      // Aquí puedes agregar analytics o lógica adicional
-    }
-    
-    onMounted(() => {
-      store.dispatch('fetchHomePageData')
-    })
-    
-    return {
-      heroData,
-      featuresData,
-      handleFeatureClick
-    }
-  }
+  components: { Title, SimpleTextBlock }
 }
 </script>
 
 <style scoped>
 .home {
-  min-height: 100vh;
-}
-
-.hero {
-  background: linear-gradient(135deg, var(--bg-primary), #2A1A55);
-}
-
-.hero .container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-12);
-  align-items: center;
-  min-height: 80vh;
-}
-
-.hero__title {
-  font-size: var(--text-4xl);
-  margin-bottom: var(--space-6);
-  line-height: 1.2;
-}
-
-.hero__description {
-  font-size: var(--text-xl);
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: var(--space-8);
-  line-height: 1.6;
-}
-
-.hero__image {
   position: relative;
-}
-
-.hero__img {
   width: 100%;
-  height: auto;
-  border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-lg);
-  transition: transform var(--transition-slow);
+  height: 100vh;
+  overflow: hidden;
 }
 
-.hero__img:hover {
-  transform: scale(1.02);
+/* Fondo con imagen y máscara negra degradada */
+.background {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: url('https://images.unsplash.com/photo-1522199710521-72d69614c702?auto=format&fit=crop&w=1920&q=80')
+    center center / cover no-repeat;
 }
 
-.features {
-  background: rgba(255, 255, 255, 0.02);
+.background__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, transparent 100%);
+  z-index: 1;
 }
 
-.features__title {
-  font-size: var(--text-3xl);
-  margin-bottom: var(--space-12);
-  background: linear-gradient(135deg, var(--blue-ai), var(--purple-accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.features-grid {
+/* Grid principal */
+.grid-layout {
+    padding-top: 5rem;
+  position: relative;
+  z-index: 2;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-8);
-  max-width: 1200px;
-  margin: 0 auto;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: none;
+  grid-auto-rows: minmax(150px, auto);
+  height: 100%;
+  width: 100%;
+  padding: 3rem;
+  gap: 1.5rem;
+  box-sizing: border-box;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .hero .container {
+/* Celdas genéricas */
+.grid-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid-cell:empty {
+  display: block;
+}
+
+
+/* Centrado del bloque de texto */
+.grid-center {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  grid-column: 2 / span 2;
+}
+
+@media (max-width: 1024px) {
+  .grid-layout {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: minmax(150px, auto);
+    padding-top: 3rem;
+  }
+
+  /* Ocultar celdas vacías */
+  .grid-cell:empty {
+    display: none;
+  }
+
+  .grid-center {
+    grid-column: 1 / span 2;
+  }
+}
+
+/* Móvil (hasta 640px): sin celdas vacías, grid fluido */
+@media (max-width: 640px) {
+  .grid-layout {
     grid-template-columns: 1fr;
-    gap: var(--space-8);
-    text-align: center;
+    padding-top: 1rem;
+    gap: 1rem;
   }
-  
-  .hero__title {
-    font-size: var(--text-3xl);
+
+  .grid-cell:empty {
+    display: none;
   }
-  
-  .hero__description {
-    font-size: var(--text-lg);
-  }
-  
-  .features-grid {
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: var(--space-6);
-  }
-  
-  .features__title {
-    font-size: var(--text-2xl);
+
+  .grid-center {
+    grid-column: 1;
   }
 }
 </style>

@@ -1,30 +1,115 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+  <nav class="navbar">
+    <div class="navbar__logo">
+      <img src="https://placekitten.com/50/50" alt="Logo gatito" />
+    </div>
+
+    <div class="navbar__links">
+      <router-link to="/">Home</router-link>
+      <router-link to="/about">About</router-link>
+      <router-link to="/contact">Contact</router-link>
+    </div>
   </nav>
+
   <router-view />
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+export default {
+  name: "App",
+};
+</script>
+
+<style scoped>
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 1rem 2rem;
+  background: rgba(10, 10, 20, 0.85);
+  backdrop-filter: blur(10px);
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-nav {
-  padding: 30px;
+/* Logo */
+.navbar__logo img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.navbar__logo img:hover {
+  transform: scale(1.1) rotate(-6deg);
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
+/* Contenedor de links */
+.navbar__links {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 2rem;
+  margin-left: auto;
+}
+
+/* Links */
+.navbar__links a {
+  color: var(--text-primary, #fff);
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s ease;
+  font-family: var(--font-family-heading, 'Poppins', sans-serif);
+}
+
+/* Subrayado animado */
+.navbar__links a::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--purple-accent, #9b51e0);
+  transition: width 0.3s ease, left 0.3s ease;
+}
+
+.navbar__links a:hover {
+  color: var(--purple-accent, #9b51e0);
+}
+
+.navbar__links a:hover::after {
+  width: 100%;
+  left: 0;
+}
+
+/* Efecto de click */
+.navbar__links a:active {
+  transform: scale(0.96);
+  color: var(--pink-support, #ff6bcb);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.75rem 1rem;
+  }
+
+  .navbar__logo img {
+    width: 34px;
+    height: 34px;
+  }
+
+  .navbar__links {
+    gap: 1rem;
+  }
 }
 </style>

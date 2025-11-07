@@ -1,35 +1,30 @@
 <template>
   <div 
-    class="feature-card"
-    :class="{ 'feature-card--clickable': clickable }"
+    class="mini-feature-card"
+    :class="{ 'mini-feature-card--clickable': clickable }"
     @click="handleClick"
   >
-    <div class="feature-card__image-container">
+    <div class="mini-feature-card__image-container">
       <img 
         :src="image" 
         :alt="altText"
-        class="feature-card__image"
+        class="mini-feature-card__image"
         loading="lazy"
       />
-      <div class="feature-card__overlay"></div>
+      <div class="mini-feature-card__overlay"></div>
     </div>
-    
-    <h3 class="feature-card__title">
+
+    <h3 class="mini-feature-card__title">
       {{ title }}
     </h3>
-    
-    <p v-if="description" class="feature-card__description">
-      {{ description }}
-    </p>
-    
-    <!-- Efecto de glow al hover -->
-    <div class="feature-card__glow"></div>
+
+    <div class="mini-feature-card__glow"></div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'FeatureCard',
+  name: 'MiniFeatureCard',
   props: {
     image: {
       type: String,
@@ -43,11 +38,7 @@ export default {
     title: {
       type: String,
       required: true,
-      default: 'coñoelamadre'
-    },
-    description: {
-      type: String,
-      default: ''
+      default: 'Título'
     },
     clickable: {
       type: Boolean,
@@ -61,17 +52,10 @@ export default {
   emits: ['click'],
   methods: {
     handleClick() {
-      if (this.clickable) {
-        this.$emit('click')
-        
-        // Navegación si se proporciona 'to'
-        if (this.to && this.$router) {
-          if (typeof this.to === 'string') {
-            this.$router.push(this.to)
-          } else {
-            this.$router.push(this.to)
-          }
-        }
+      if (!this.clickable) return
+      this.$emit('click')
+      if (this.to && this.$router) {
+        this.$router.push(this.to)
       }
     }
   }
@@ -79,13 +63,13 @@ export default {
 </script>
 
 <style scoped>
-.feature-card {
+.mini-feature-card {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: var(--space-6);
+  padding: var(--space-5);
   border-radius: var(--border-radius-lg);
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
@@ -94,36 +78,37 @@ export default {
   overflow: hidden;
 }
 
-.feature-card--clickable {
+.mini-feature-card--clickable {
   cursor: pointer;
 }
 
-.feature-card--clickable:hover {
-  transform: translateY(-8px);
+.mini-feature-card--clickable:hover {
+  transform: translateY(-6px);
   background: rgba(255, 255, 255, 0.08);
   border-color: var(--purple-accent);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-md);
 }
 
-.feature-card__image-container {
+/* Imagen circular */
+.mini-feature-card__image-container {
   position: relative;
-  width: 120px;
-  height: 120px;
-  margin-bottom: var(--space-6);
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   overflow: hidden;
   border: 3px solid transparent;
   background: linear-gradient(135deg, var(--blue-ai), var(--purple-accent));
   padding: 3px;
+  margin-bottom: var(--space-4);
   transition: all var(--transition-normal);
 }
 
-.feature-card--clickable:hover .feature-card__image-container {
+.mini-feature-card--clickable:hover .mini-feature-card__image-container {
   transform: scale(1.05);
   border-color: var(--yellow-contrast);
 }
 
-.feature-card__image {
+.mini-feature-card__image {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -131,62 +116,47 @@ export default {
   transition: transform var(--transition-slow);
 }
 
-.feature-card--clickable:hover .feature-card__image {
+.mini-feature-card--clickable:hover .mini-feature-card__image {
   transform: scale(1.1);
 }
 
-.feature-card__overlay {
+.mini-feature-card__overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    135deg,
-    transparent 0%,
-    rgba(155, 81, 224, 0.2) 100%
-  );
+  inset: 0;
   border-radius: 50%;
+  background: linear-gradient(135deg, transparent 0%, rgba(155, 81, 224, 0.25) 100%);
   opacity: 0;
   transition: opacity var(--transition-normal);
 }
 
-.feature-card--clickable:hover .feature-card__overlay {
+.mini-feature-card--clickable:hover .mini-feature-card__overlay {
   opacity: 1;
 }
 
-.feature-card__title {
+/* Título */
+.mini-feature-card__title {
   font-family: var(--font-family-heading);
-  font-size: var(--text-xl);
+  font-size: var(--text-lg);
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: var(--space-3);
   background: linear-gradient(135deg, var(--text-primary), var(--blue-ai));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  margin: 0;
 }
 
-.feature-card--clickable:hover .feature-card__title {
+.mini-feature-card--clickable:hover .mini-feature-card__title {
   background: linear-gradient(135deg, var(--yellow-contrast), var(--pink-support));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.feature-card__description {
-  font-size: var(--text-sm);
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.5;
-  max-width: 280px;
-}
-
-.feature-card__glow {
+/* Glow */
+.mini-feature-card__glow {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   border-radius: var(--border-radius-lg);
   background: linear-gradient(135deg, var(--blue-ai), transparent, var(--purple-accent));
   opacity: 0;
@@ -194,24 +164,23 @@ export default {
   z-index: -1;
 }
 
-.feature-card--clickable:hover .feature-card__glow {
+.mini-feature-card--clickable:hover .mini-feature-card__glow {
   opacity: 0.1;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .feature-card {
+  .mini-feature-card {
     padding: var(--space-4);
   }
-  
-  .feature-card__image-container {
-    width: 100px;
-    height: 100px;
-    margin-bottom: var(--space-4);
+
+  .mini-feature-card__image-container {
+    width: 85px;
+    height: 85px;
   }
-  
-  .feature-card__title {
-    font-size: var(--text-lg);
+
+  .mini-feature-card__title {
+    font-size: var(--text-base);
   }
 }
 </style>
