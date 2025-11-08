@@ -1,4 +1,5 @@
-Proyecto: IA Consciente
+# Proyecto: IA Consciente
+
 ## Integrantes del equipo
 *Johan Santiago Camargo Olmos, Miguel Angel Quintero Puentes, Alexia Gutiérrez Niño, Juliana Gutiérrez Rodríguez, Angie Lorena Gonzalez Riano*
 
@@ -85,6 +86,56 @@ Los usuarios podrán asegurar un **Compromiso Digital** con principios como:
 - **Alojamiento:** GitHub   
 - **Características:** Materiales educativos 
 - **Difusión:** campañas escolares, redes sociales y alianzas con docentes
+
+---
+
+## Instalación y Ejecución Local
+
+Sigue estos pasos para ejecutar el proyecto en tu entorno local:
+
+### Backend (Django)
+```bash
+# Navegar a la carpeta backend
+cd BackEnd/backend
+
+# Crear entorno virtual
+python -m venv venv
+
+# Activar entorno virtual
+# En Windows:
+venv\Scripts\activate
+# En Linux/Mac:
+source venv/bin/activate
+
+# Instalar dependencias
+python -m pip install -r requirements.txt
+
+# Salir de la carpeta backend
+cd ../..
+```
+
+### Frontend (Vue.js)
+```bash
+# Navegar a la carpeta frontend
+cd Frontend
+
+# Instalar dependencias de Node.js
+npm install
+
+### Ejecutar la aplicación
+```bash
+# En una terminal, ejecutar el backend:
+cd BackEnd/backend
+python manage.py runserver
+
+# En otra terminal, ejecutar el frontend:
+cd FrontEnd
+npm run serve
+```
+
+Una vez ejecutados ambos servidores, podrás acceder a:
+- **Frontend:** http://localhost:8080
+- **Backend:** http://localhost:8000
 
 ---
 
