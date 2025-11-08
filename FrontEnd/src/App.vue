@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar">
     <div class="navbar__logo">
-      <img src="https://placekitten.com/50/50" alt="Logo gatito" />
+      <img src="@/assets/logo.svg" alt="Logo gatito" />
     </div>
 
     <div class="navbar__links">
@@ -35,7 +35,7 @@ export default {
   align-items: center;
   justify-content: space-between;
 
-  padding: 1rem 2rem;
+  padding: 1rem 3rem;
   background: rgba(10, 10, 20, 0.85);
   backdrop-filter: blur(10px);
 
@@ -44,8 +44,8 @@ export default {
 
 /* Logo */
 .navbar__logo img {
-  width: 42px;
-  height: 42px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   transition: transform 0.3s ease;
 }

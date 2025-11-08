@@ -1,7 +1,6 @@
 Proyecto: IA Consciente
 ## Integrantes del equipo
-*Johan Santiago Camargo Olmos - 20252020034, Miguel Angel Quintero Puentes - 20252020029, Alexia Gutiérrez Niño - 20252020026, Juliana Gutiérrez Rodríguez - 20252020036
-, Angie Lorena Gonzales Riano - 20252020024*
+*Johan Santiago Camargo Olmos, Miguel Angel Quintero Puentes, Alexia Gutiérrez Niño, Juliana Gutiérrez Rodríguez, Angie Lorena Gonzales Riano
 
 **Concientización sobre el uso responsable de la Inteligencia Artificial en adolescentes**  
 Proyecto enmarcado en el programa **CiberPaz 2025** del **Ministerio de Tecnologías de la Información y las Comunicaciones de Colombia (MinTIC)**.
