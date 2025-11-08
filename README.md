@@ -78,23 +78,12 @@ Los usuarios podrán asegurar un **Compromiso Digital** con principios como:
 
 ---
 
-## Métricas e impacto esperado
-
-| Indicador | Meta |
-|------------|------|
-| Adolescentes alcanzados | 5.000 en 3 meses |
-| Porcentaje que completa el módulo CiberPaz | 60% |
-| Incremento en comprensión crítica sobre IA | +40% |
-| Compromisos digitales firmados | 500 |
-| Instituciones educativas vinculadas | 50 |
-
----
 
 ## Plan técnico y comunicativo
 
-- **Tecnologías:** 
+- **Tecnologías:** vue.js y Django
 - **Alojamiento:** GitHub   
-- **Características:** Materiales educativos, conexión directa con el módulo CiberPaz  
+- **Características:** Materiales educativos 
 - **Difusión:** campañas escolares, redes sociales y alianzas con docentes
 
 ---
@@ -103,12 +92,6 @@ Los usuarios podrán asegurar un **Compromiso Digital** con principios como:
 
 El proyecto **IA Consciente** empodera a los adolescentes para usar la Inteligencia Artificial con **ética, pensamiento crítico y empatía**, promoviendo los valores de **CiberPaz 2025**.  
 A través de esta experiencia educativa digital, los jóvenes aprenderán a valorar el pensamiento humano en la era tecnológica.
-
----
-
-## Enlaces al artefacto creado
-
-*(Aquí se incluirán los enlaces al código fuente, demo o producto audiovisual del proyecto)*
 
 ---
 
