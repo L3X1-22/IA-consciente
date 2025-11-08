@@ -15,11 +15,15 @@
   </nav>
 
   <router-view />
+  
+  <Footer />
 </template>
 
 <script>
+import Footer from '@/components/ui/Footer.vue'
 export default {
   name: "App",
+  components: { Footer },
 };
 </script>
 
