@@ -2,66 +2,59 @@
   <div class="entorno-academico">
     <div class="background__overlay"></div>
 
-    <div class="grid-layout">
-      <!-- Fila 1 -->
-      <div class="grid-cell">
+    <div class="grid-layout" v-if="!loading && !error">
+      <div
+        v-for="(item, index) in filteredBlocks"
+        :key="item.id"
+        class="grid-cell"
+      >
         <FeatureCard
           class="round-img"
-          title="Usa IA para aprender"
-          description="Aprende a usar herramientas de IA que potencian tu comprensión en lugar de reemplazar tu pensamiento crítico."
-          image="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80"
-        />
-      </div>
-      <div class="grid-cell"></div>
-      <div class="grid-cell">
-        <FeatureCard
-          class="round-img"
-          title="Crea con propósito"
-          description="Usa la inteligencia artificial como un apoyo creativo, no como sustituto de tus ideas."
-          image="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80"
-        />
-      </div>
-
-      <!-- Fila 2 -->
-      <div class="grid-cell"></div>
-      <div class="grid-cell">
-        <FeatureCard
-          class="round-img"
-          title="Apoya tu investigación"
-          description="Deja que la IA te ayude a buscar fuentes y estructurar ideas, manteniendo siempre la verificación humana."
-          image="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80"
-        />
-      </div>
-      <div class="grid-cell"></div>
-
-      <!-- Fila 3 -->
-      <div class="grid-cell">
-        <FeatureCard
-          class="round-img"
-          title="Colabora inteligentemente"
-          description="Aprovecha la IA para mejorar el trabajo en equipo y la comunicación académica."
-          image="https://images.unsplash.com/photo-1581093588401-22dba1e3e5af?auto=format&fit=crop&w=800&q=80"
-        />
-      </div>
-      <div class="grid-cell"></div>
-      <div class="grid-cell">
-        <FeatureCard
-          class="round-img"
-          title="Desarrolla tu propio estilo"
-          description="Usa la IA como inspiración, pero deja que tus palabras y pensamiento sigan siendo tuyos."
-          image="https://images.unsplash.com/photo-1529101091764-c3526daf38fe?auto=format&fit=crop&w=800&q=80"
+          :title="item.title"
+          :description="item.description"
+          :image="item.image_url"
+          :alt-text="item.image_alt"
         />
       </div>
     </div>
+
+    <div v-else-if="loading" class="loading">Cargando contenido...</div>
+    <div v-else-if="error" class="error">Error: {{ error }}</div>
   </div>
 </template>
 
 <script>
 import FeatureCard from '@/components/ui/FeatureCard.vue'
+import api from '@/services/api.js'
 
 export default {
   name: 'EntornoAcademicoView',
-  components: { FeatureCard }
+  components: { FeatureCard },
+  data() {
+    return {
+      contentBlocks: [],
+      loading: true,
+      error: null
+    }
+  },
+  computed: {
+    // 🔹 Solo los bloques de esta sección
+    filteredBlocks() {
+      return this.contentBlocks.filter(
+        block => block.section === 'entorno-academico'
+      )
+    }
+  },
+  async mounted() {
+    try {
+      const response = await api.get('content-blocks/?section=entorno-academico')
+      this.contentBlocks = response.data
+    } catch (err) {
+      this.error = err.message || 'Error al cargar el contenido'
+    } finally {
+      this.loading = false
+    }
+  }
 }
 </script>
 
@@ -102,6 +95,20 @@ export default {
 .round-img .feature-card__image {
   border-radius: 50%;
   object-fit: cover;
+}
+
+/* Estados */
+.loading,
+.error {
+  text-align: center;
+  margin-top: var(--space-12);
+  font-size: var(--text-lg);
+  color: var(--text-primary);
+  opacity: 0.8;
+}
+
+.error {
+  color: var(--pink-support);
 }
 
 /* Responsividad */

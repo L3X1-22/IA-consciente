@@ -1,13 +1,43 @@
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia";
+import api from "@/services/api";
 
-export const useMainStore = defineStore('main', {
+export const useMainStore = defineStore("main", {
   state: () => ({
-    content: {
-      title: 'IA Consciente',
-      text: `Este es un proyecto que busca explorar los límites de la inteligencia artificial,
-      la ética y la conciencia. En esta página encontrarás información sobre nuestras ideas,
-      objetivos y avances, presentados de forma accesible y visualmente atractiva.`,
-      image: 'https://comunicagenia.com/wp-content/uploads/2024/10/usar-inteligencia-artificial-creador-contenido-1080x675.jpg'
-    }
-  })
-})
+    // Estado global
+    theme: "light",
+    loading: false,
+    error: null,
+
+    // Contenido del backend
+    content: [],
+    bibliography: [],
+  }),
+
+  actions: {
+    async fetchContent(sectionSlug) {
+      this.loading = true;
+      this.error = null;
+      try {
+        const res = await api.get(`content/?section=${sectionSlug}`);
+        this.content = res.data;
+      } catch (err) {
+        this.error = err;
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async fetchBibliography() {
+      this.loading = true;
+      this.error = null;
+      try {
+        const res = await api.get("bibliography/");
+        this.bibliography = res.data;
+      } catch (err) {
+        this.error = err;
+      } finally {
+        this.loading = false;
+      }
+    },
+  },
+});

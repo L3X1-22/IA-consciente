@@ -17,28 +17,26 @@
         <div class="grid-cell"></div>
         <div class="grid-cell grid-center">
           <SimpleTextBlock title="IA consciente"
-            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer malesuada ex ut ligula eleifend, eget tincidunt turpis suscipit. Suspendisse potenti. Proin dapibus diam et justo convallis, sed tincidunt purus tincidunt." />
+            text="La IA está en todos lados: en tus redes, en tus playlists, en asistentes virtuales. Es poderosa... Pero también puede influir en cómo piensas y lo que haces. Por eso, usar IA con conciencia es clave. Aquí te mostramos cómo entenderla, cuestionarla y aprovecharla sin perder tu pensamiento crítico. Porque la inteligencia artificial no debería sustituir tu esencia, sino potenciarla." />
         </div>
         <div class="grid-cell"></div>
 
-        <!-- Fila 3: los 4 Title.vue -->
-        <!-- Fila 3: los 4 Title.vue -->
-        <div class="grid-cell">
-          <Title title="Introducción a la Inteligencia Artificial"
-            image="https://comunicagenia.com/wp-content/uploads/2024/10/usar-inteligencia-artificial-creador-contenido-1080x675.jpg" />
-        </div>
-        <div class="grid-cell">
-          <Title title="Cómo funciona un Modelo de Lenguaje"
-            image="https://comunicagenia.com/wp-content/uploads/2024/10/usar-inteligencia-artificial-creador-contenido-1080x675.jpg" />
-        </div>
-        <div class="grid-cell">
-          <Title title="IA en la Educación y el Entorno Académico"
-            image="https://comunicagenia.com/wp-content/uploads/2024/10/usar-inteligencia-artificial-creador-contenido-1080x675.jpg" />
-        </div>
-        <div class="grid-cell">
-          <Title title="Pensamiento Crítico frente a la Inteligencia Artificial"
-            image="https://comunicagenia.com/wp-content/uploads/2024/10/usar-inteligencia-artificial-creador-contenido-1080x675.jpg" />
-        </div>
+        <Title title="Introducción a la Inteligencia Artificial"
+          image="https://comunicagenia.com/wp-content/uploads/2024/10/usar-inteligencia-artificial-creador-contenido-1080x675.jpg"
+          :to="'/que-es-ia'" />
+
+        <Title title="Cómo funciona un Modelo de Lenguaje"
+          image="https://comunicagenia.com/wp-content/uploads/2024/10/usar-inteligencia-artificial-creador-contenido-1080x675.jpg"
+          :to="'/como-funciona-un-llm'" />
+
+        <Title title="IA en la Educación y el Entorno Académico"
+          image="https://comunicagenia.com/wp-content/uploads/2024/10/usar-inteligencia-artificial-creador-contenido-1080x675.jpg"
+          :to="'/entorno-academico'" />
+
+        <Title title="Pensamiento Crítico frente a la Inteligencia Artificial"
+          image="https://comunicagenia.com/wp-content/uploads/2024/10/usar-inteligencia-artificial-creador-contenido-1080x675.jpg"
+          :to="'/pensamiento-critico'" />
+
       </div>
     </div>
   </div>
@@ -98,7 +96,7 @@ export default {
   align-self: stretch;
 }
 
-.grid-cell > * {
+.grid-cell>* {
   width: 100%;
   height: 100%;
 }

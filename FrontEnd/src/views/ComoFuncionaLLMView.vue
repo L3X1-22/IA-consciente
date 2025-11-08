@@ -1,15 +1,18 @@
 <template>
   <div class="llm-view">
-    <div class="grid-llm">
+    <div v-if="!loading && !error" class="grid-llm">
       <!-- 🔹 Texto izquierdo -->
-      <div class="llm-text left">
+      <div
+        class="llm-text left"
+        v-if="filteredBlocks[0]"
+      >
         <SimpleTextBlock
-          title="Procesamiento del lenguaje"
-          text="Los LLM analizan el texto descomponiéndolo en unidades llamadas tokens. Cada token representa una palabra o fragmento de palabra, lo que permite entender estructuras y contextos."
+          :title="filteredBlocks[0].title"
+          :text="filteredBlocks[0].description"
         />
       </div>
 
-      <!-- 🔹 Imagen central -->
+      <!-- 🔹 Imagen central (hardcodeada) -->
       <div class="llm-image">
         <img
           src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1920&q=80"
@@ -18,31 +21,67 @@
       </div>
 
       <!-- 🔹 Texto derecho -->
-      <div class="llm-text right">
+      <div
+        class="llm-text right"
+        v-if="filteredBlocks[1]"
+      >
         <SimpleTextBlock
-          title="Predicción y contexto"
-          text="A partir del contexto previo, el modelo predice la siguiente palabra más probable. Este proceso ocurre miles de veces por segundo, generando respuestas coherentes y fluidas."
+          :title="filteredBlocks[1].title"
+          :text="filteredBlocks[1].description"
         />
       </div>
 
       <!-- 🔹 Texto inferior -->
-      <div class="llm-text bottom">
+      <div
+        class="llm-text bottom"
+        v-if="filteredBlocks[2]"
+      >
         <SimpleTextBlock
-          title="Aprendizaje continuo"
-          text="Los LLM mejoran con grandes volúmenes de datos, ajustando internamente millones de parámetros que determinan cómo se relacionan las palabras y los conceptos."
+          :title="filteredBlocks[2].title"
+          :text="filteredBlocks[2].description"
         />
       </div>
     </div>
+
+    <!-- Estados -->
+    <div v-else-if="loading" class="loading">Cargando contenido...</div>
+    <div v-else-if="error" class="error">Error: {{ error }}</div>
   </div>
 </template>
 
 <script>
 import SimpleTextBlock from '@/components/ui/SimpleTextBlock.vue'
+import api from '@/services/api.js'
 
 export default {
   name: 'ComoFuncionaLLMView',
   components: {
     SimpleTextBlock
+  },
+  data() {
+    return {
+      contentBlocks: [],
+      loading: true,
+      error: null
+    }
+  },
+  computed: {
+    filteredBlocks() {
+      // 🔹 Asegura que solo muestre los de esta sección
+      return this.contentBlocks.filter(
+        block => block.section === 'como-funciona-un-llm'
+      )
+    }
+  },
+  async mounted() {
+    try {
+      const response = await api.get('content-blocks/?section=como-funciona-un-llm')
+      this.contentBlocks = response.data
+    } catch (err) {
+      this.error = err.message || 'Error al cargar los bloques de contenido'
+    } finally {
+      this.loading = false
+    }
   }
 }
 </script>
@@ -51,7 +90,7 @@ export default {
 .llm-view {
   width: 100%;
   min-height: 100vh;
-  padding-top: 90px; /* espacio para el nav fijo */
+  padding-top: 90px;
   background: radial-gradient(circle at center, #0d0d0d 0%, #121212 100%);
   overflow-x: hidden;
   overflow-y: auto;
@@ -71,7 +110,7 @@ export default {
   align-items: center;
 }
 
-/* 🔹 Imagen central grande */
+/* Imagen central */
 .llm-image {
   grid-column: 2 / span 1;
   grid-row: 1 / span 1;
@@ -94,7 +133,7 @@ export default {
   transform: scale(1.03);
 }
 
-/* 🔹 Posiciones */
+/* Posiciones */
 .llm-text.left {
   grid-column: 1;
   grid-row: 1;
@@ -112,7 +151,7 @@ export default {
   justify-content: center;
 }
 
-/* 🔹 Responsivo - tablet */
+/* Responsivo - tablet */
 @media (max-width: 1024px) {
   .grid-llm {
     grid-template-columns: 1fr 1fr;
@@ -139,7 +178,7 @@ export default {
   }
 }
 
-/* 🔹 Responsivo - móvil */
+/* Responsivo - móvil */
 @media (max-width: 768px) {
   .grid-llm {
     grid-template-columns: 1fr;
@@ -171,5 +210,19 @@ export default {
   .llm-image img {
     max-width: 100%;
   }
+}
+
+/* Estados */
+.loading,
+.error {
+  text-align: center;
+  margin-top: var(--space-12);
+  font-size: var(--text-lg);
+  color: var(--text-primary);
+  opacity: 0.8;
+}
+
+.error {
+  color: var(--pink-support);
 }
 </style>

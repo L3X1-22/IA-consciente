@@ -20,6 +20,11 @@ class ContentBlock(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     image_url = models.URLField(blank=True)
+    image_alt = models.CharField(  # 🔹 Nuevo campo
+        max_length=255,
+        blank=True,
+        help_text="Texto alternativo para la imagen (usado en accesibilidad y SEO)."
+    )
     type = models.CharField(max_length=30, choices=TYPES)
     section = models.CharField(max_length=50, choices=SECTION_CHOICES)
     order = models.PositiveIntegerField(default=0)
@@ -32,6 +37,7 @@ class ContentBlock(models.Model):
 
     def __str__(self):
         return f"{self.section} → {self.title}"
+
 
 
 class Bibliography(models.Model):

@@ -73,7 +73,14 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 # O permitir todos en desarrollo (cuidado en producción)
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080",  # Vue en modo dev
+    "http://127.0.0.1:8080",
+]
+CSRF_TRUSTED_ORIGINS = ["http://localhost:8080", "http://127.0.0.1:8080"]
+
+# Si vas a desplegar, luego añades tu dominio
+
 
 CORS_ALLOW_METHODS = [
     'GET',

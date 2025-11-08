@@ -3,7 +3,7 @@
     <div class="feature-card__image-container">
       <img 
         :src="image" 
-        :alt="altText" 
+        :alt="alt" 
         class="feature-card__image"
         loading="lazy"
       />
@@ -24,7 +24,7 @@ export default {
       type: String,
       required: true
     },
-    altText: {
+    alt: { // 🔹 nombre alineado con el view
       type: String,
       default: 'Imagen descriptiva'
     },
@@ -38,7 +38,7 @@ export default {
     },
     reverse: {
       type: Boolean,
-      default: false // 🔹 true = texto a la derecha, imagen a la izquierda
+      default: false // true = texto a la derecha, imagen a la izquierda
     }
   }
 }
@@ -59,7 +59,7 @@ export default {
 }
 
 .feature-card.reverse {
-  flex-direction: row-reverse; /* 🔁 texto a la izquierda */
+  flex-direction: row-reverse;
 }
 
 .feature-card__image-container {
@@ -109,7 +109,7 @@ export default {
   }
 
   .feature-card.reverse {
-    flex-direction: column; /* 🔹 En móvil siempre imagen arriba */
+    flex-direction: column;
   }
 
   .feature-card__image {

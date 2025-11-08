@@ -3,53 +3,17 @@
     <div class="background__overlay"></div>
 
     <div class="grid-layout">
-      <!-- Fila 1 -->
-      <div class="grid-cell">
+      <div
+        v-for="block in contentBlocks"
+        :key="block.id"
+        class="grid-cell"
+      >
         <FeatureCard
           class="round-img"
-          title="Reconoce tus límites"
-          description="Cuando usas un LLM, pregúntate si podrías haber llegado a esa idea sola. Si no, investiga antes de aceptar la respuesta."
-          image="https://images.unsplash.com/photo-1581090700227-1e37b190418e?auto=format&fit=crop&w=800&q=80"
-        />
-      </div>
-      <div class="grid-cell"></div>
-      <div class="grid-cell">
-        <FeatureCard
-          class="round-img"
-          title="Evalúa la coherencia"
-          description="Un modelo puede sonar convincente, pero no siempre tiene razón. Verifica los datos y busca contradicciones."
-          image="https://images.unsplash.com/photo-1521791055366-0d553872125f?auto=format&fit=crop&w=800&q=80"
-        />
-      </div>
-
-      <!-- Fila 2 -->
-      <div class="grid-cell"></div>
-      <div class="grid-cell">
-        <FeatureCard
-          class="round-img"
-          title="Haz pausas conscientes"
-          description="Si notas que el modelo escribe por ti sin que reflexiones, haz una pausa y vuelve a pensar en lo que querías comunicar."
-          image="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80"
-        />
-      </div>
-      <div class="grid-cell"></div>
-
-      <!-- Fila 3 -->
-      <div class="grid-cell">
-        <FeatureCard
-          class="round-img"
-          title="Compara perspectivas"
-          description="Usar un LLM no debe reemplazar la diversidad de pensamiento. Contrasta sus respuestas con opiniones humanas reales."
-          image="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80"
-        />
-      </div>
-      <div class="grid-cell"></div>
-      <div class="grid-cell">
-        <FeatureCard
-          class="round-img"
-          title="Recupera la autoría"
-          description="Asegúrate de que tu voz siga presente en lo que creas con ayuda de IA. No dejes que piense por ti."
-          image="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80"
+          :title="block.title"
+          :description="block.description"
+          :image="block.image_url"
+          :alt="block.image_alt"
         />
       </div>
     </div>
@@ -57,11 +21,25 @@
 </template>
 
 <script>
+import axios from 'axios'
 import FeatureCard from '@/components/ui/FeatureCard.vue'
 
 export default {
   name: 'PensamientoCriticoView',
-  components: { FeatureCard }
+  components: { FeatureCard },
+  data() {
+    return {
+      contentBlocks: []
+    }
+  },
+  async created() {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/api/content/?section=pensamiento-critico')
+      this.contentBlocks = response.data
+    } catch (error) {
+      console.error('Error cargando los bloques de pensamiento crítico:', error)
+    }
+  }
 }
 </script>
 
@@ -71,7 +49,7 @@ export default {
   width: 100%;
   min-height: 100vh;
   overflow-y: auto;
-  padding-top: 6rem; /* deja espacio por el nav fijo */
+  padding-top: 6rem;
   background: linear-gradient(to bottom right, #0b0b0b, #141414);
 }
 

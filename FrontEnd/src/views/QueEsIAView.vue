@@ -1,51 +1,60 @@
 <template>
   <div class="que-es-ia-view">
-    <div class="content-grid">
-      <!-- 🔹 Fila superior -->
-      <div class="feature-top">
-        <FeatureCard
-          title="¿Qué es la Inteligencia Artificial?"
-          description="La inteligencia artificial (IA) busca crear sistemas capaces de realizar tareas que normalmente requieren inteligencia humana, desde reconocer patrones hasta tomar decisiones complejas."
-          image="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1920&q=80"
-        />
-      </div>
-
-      <div class="text-top">
-        <SimpleTextBlock
-          title="Más que una herramienta"
-          text="La IA no es solo tecnología; es una extensión de nuestra forma de pensar, crear y resolver problemas. Su evolución redefine lo que significa ser humano en la era digital."
-        />
-      </div>
-
-      <!-- 🔹 Fila inferior -->
-      <div class="text-bottom">
-        <SimpleTextBlock
-          title="IA débil, fuerte y general"
-          text="Mientras la IA débil está diseñada para tareas específicas, la IA fuerte o general aspira a reproducir la adaptabilidad y el razonamiento humano."
-        />
-      </div>
-
-      <div class="feature-bottom">
-        <FeatureCard
-          title="Aprendizaje continuo"
-          description="Los modelos de IA aprenden de la experiencia, refinando sus resultados mediante datos y retroalimentación. Este proceso impulsa avances en múltiples disciplinas."
-          image="https://images.unsplash.com/photo-1508385082359-f38ae991e8f2?auto=format&fit=crop&w=1920&q=80"
-          :reverse="true"
-        />
-      </div>
+    <div class="content-grid" v-if="!loading && !error">
+      <component
+        v-for="(item, index) in filteredBlocks"
+        :is="item.type === 'feature-card' ? 'FeatureCard' : 'SimpleTextBlock'"
+        :key="item.id"
+        :title="item.title"
+        :description="item.description"
+        :text="item.description"
+        :image="item.image_url"
+        :alt-text="item.image_alt"
+        :reverse="index % 2 !== 0 && item.type === 'feature-card'"
+        class="fade-in content-item"
+      />
     </div>
+
+    <div v-else-if="loading" class="loading">Cargando contenido...</div>
+    <div v-else-if="error" class="error">Error: {{ error }}</div>
   </div>
 </template>
 
 <script>
 import FeatureCard from '@/components/ui/FeatureCard.vue'
 import SimpleTextBlock from '@/components/ui/SimpleTextBlock.vue'
+import api from '@/services/api.js'
 
 export default {
   name: 'QueEsIAView',
   components: {
     FeatureCard,
     SimpleTextBlock
+  },
+  data() {
+    return {
+      contentBlocks: [],
+      loading: true,
+      error: null
+    }
+  },
+  computed: {
+    // 🔹 Solo los bloques de esta sección
+    filteredBlocks() {
+      return this.contentBlocks.filter(
+        block => block.section === 'que-es-ia'
+      )
+    }
+  },
+  async mounted() {
+    try {
+      const response = await api.get('content-blocks/?section=que-es-ia')
+      this.contentBlocks = response.data
+    } catch (err) {
+      this.error = err.message || 'Error al cargar los bloques de contenido'
+    } finally {
+      this.loading = false
+    }
   }
 }
 </script>
@@ -54,105 +63,53 @@ export default {
 .que-es-ia-view {
   width: 100%;
   min-height: 100vh;
-  padding-top: 90px; /* espacio para el nav fijo */
-  background: linear-gradient(180deg, #0a0a0a 0%, #151515 100%);
+  padding-top: 90px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
   overflow-x: hidden;
   overflow-y: auto;
   display: flex;
   justify-content: center;
+  animation: fadeIn 0.6s ease-out;
 }
 
+/* 🧩 Grid adaptable y simétrica */
 .content-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 2rem;
-  max-width: 1400px;
+  grid-template-columns: 1fr;
+  gap: var(--space-12);
+  max-width: 1200px;
   width: 100%;
-  padding: 2rem;
+  padding: var(--space-8) var(--space-6);
 }
 
-/* 🔹 Posicionamiento en desktop (3 columnas) */
-.feature-top {
-  grid-column: 1 / span 2;
-  grid-row: 1;
-}
-
-.text-top {
-  grid-column: 3 / span 1;
-  grid-row: 1;
-}
-
-.text-bottom {
-  grid-column: 1 / span 1;
-  grid-row: 2;
-}
-
-.feature-bottom {
-  grid-column: 2 / span 2;
-  grid-row: 2;
-}
-
-/* 🔹 Alineación general */
-.feature-top,
-.feature-bottom,
-.text-top,
-.text-bottom {
+/* 🟰 Cada item mantiene el mismo espacio vertical */
+.content-item {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: stretch;
+  min-height: 280px;
 }
 
-/* 🔹 Responsivo - tablets */
-/* @media (max-width: 1024px) {
-  .content-grid {
-    grid-template-columns: 1fr 1fr;
-  }
+/* Alternancia de orientación */
+.content-grid > *:nth-child(odd) .feature-card {
+  flex-direction: row;
+}
+.content-grid > *:nth-child(even) .feature-card {
+  flex-direction: row-reverse;
+}
 
-  .feature-top {
-    grid-column: 1 / span 2;
-    grid-row: 1;
-  }
+/* Estados */
+.loading,
+.error {
+  text-align: center;
+  margin-top: var(--space-12);
+  font-size: var(--text-lg);
+  color: var(--text-primary);
+  opacity: 0.8;
+}
 
-  .text-top {
-    grid-column: 1 / span 2;
-    grid-row: 2;
-  }
-
-  .text-bottom {
-    grid-column: 1 / span 2;
-    grid-row: 3;
-  }
-
-  .feature-bottom {
-    grid-column: 1 / span 2;
-    grid-row: 4;
-  }
-} */
-
-/* 🔹 Responsivo - móviles */
-@media (max-width: 768px) {
-  .content-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .feature-top {
-    grid-column: 1;
-    grid-row: 1;
-  }
-
-  .text-top {
-    grid-column: 1;
-    grid-row: 2;
-  }
-
-  .text-bottom {
-    grid-column: 1;
-    grid-row: 3;
-  }
-
-  .feature-bottom {
-    grid-column: 1;
-    grid-row: 4;
-  }
+.error {
+  color: var(--pink-support);
 }
 </style>
