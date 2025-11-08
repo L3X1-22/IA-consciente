@@ -114,6 +114,5 @@ A través de esta experiencia educativa digital, los jóvenes aprenderán a valo
 
 ## Licencia
 
-Este proyecto está bajo la licencia [MIT](LICENSE) y forma parte del **Reto Hackatones CiberPaz 2025** del MinTIC.
-**Autor:** Miguel Ángel Quintero Puentes  
+Este proyecto está bajo la licencia [Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)](LICENSE) y forma parte del **Reto Hackatones CiberPaz 2025** del MinTIC.
 *Creado para el Reto Hackatones CiberPaz 2025*
